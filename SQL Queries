@@ -1,0 +1,45 @@
+SAMPLE SQL QUERIES
+
+1. Problem: Find the names of all students and the projects they are enrolled in.
+
+SELECT 
+    s.student_name, 
+    p.project_name 
+FROM 
+    Students s
+JOIN 
+    Student_Project_Assignment spa ON s.student_id = spa.student_id
+JOIN 
+    Projects p ON spa.project_id = p.project_id;
+
+2. Problem: Find the total number of assignments each student has submitted.
+
+SELECT 
+    s.student_name, 
+    COUNT(spa.assignment_id) AS total_assignments_submitted 
+FROM 
+    Students s
+JOIN 
+    Student_Project_Assignment spa ON s.student_id = spa.student_id
+GROUP BY 
+    s.student_name;
+
+3. Problem: Find all the names of students who are either enrolled in projects or have submitted assignments.
+
+SELECT 
+    s.student_name 
+FROM 
+    Students s
+JOIN 
+    Student_Project_Assignment spa ON s.student_id = spa.student_id
+
+UNION 
+
+SELECT 
+    s.student_name 
+FROM 
+    Students s
+JOIN 
+    Student_Project_Assignment spa ON s.student_id = spa.student_id
+WHERE 
+    spa.assignment_id IS NOT NULL;
